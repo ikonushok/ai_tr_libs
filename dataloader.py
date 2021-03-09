@@ -167,8 +167,8 @@ class Dataloader():
         FINAM_URL = "http://export.finam.ru/"# сервер, на который стучимся
         params = urlencode([
             ('market', self.market), #на каком рынке торгуется бумага
-            ('em', self.ticker), #вытягиваем цифровой символ, который соответствует бумаге.
-            ('code', self.ticker_code), #тикер нашей акции
+            ('em', self.ticker_code), #вытягиваем цифровой символ, который соответствует бумаге.
+            ('code', self.ticker), #тикер нашей акции
             ('apply',0), #не нашёл что это значит. 
             ('df', self.start[0]), #Начальная дата, номер дня (1-31)
             ('mf', self.start[1] - 1), #Начальная дата, номер месяца (0-11)
@@ -193,7 +193,7 @@ class Dataloader():
             ('at', 1) #Нужны ли заголовки столбцов
             ]) 
 
-        url = f'{FINAM_URL}{self.ticker_code}_{self.start_date}_{self.end_date}.csv?{params}'
+        url = f'{FINAM_URL}{self.ticker}_{self.start_date}_{self.end_date}.csv?{params}'
 
         source_data = pd.read_csv(url, sep=',')
         source_data.columns = [(item, item.capitalize())[self.capitalize] for item in ['ticker', 'per', 'date', 'time', 'open', 'high', 'low', 'close', 'vol']]
