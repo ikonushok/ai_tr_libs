@@ -100,7 +100,8 @@ class Dataloader():
             'VTGK':19632,'VTRS':82886,'VZRZ':17068,'VZRZP':17067,'WTCM':19095,'WTCMP':19096,
             'YAKG':81917,'YKEN':81766,'YKENP':81769,'YNDX':388383,'YRSB':16342,'YRSBP':16343,
             'ZHIV':181674,'ZILL':81918,'ZMZN':556,'ZMZNP':603,'ZVEZ':82001}
-        self.ticker = self.tickers[ticker]
+        self.ticker = ticker
+        self.ticker_code = self.tickers[ticker]
 
         self.file_name = f'{ticker}_{period}_{start_date}_{end_date}'
         self.file_ext = '.csv'
@@ -167,7 +168,7 @@ class Dataloader():
         params = urlencode([
             ('market', self.market), #на каком рынке торгуется бумага
             ('em', self.ticker), #вытягиваем цифровой символ, который соответствует бумаге.
-            ('code', self.ticker), #тикер нашей акции
+            ('code', self.ticker_code), #тикер нашей акции
             ('apply',0), #не нашёл что это значит. 
             ('df', self.start[0]), #Начальная дата, номер дня (1-31)
             ('mf', self.start[1] - 1), #Начальная дата, номер месяца (0-11)
