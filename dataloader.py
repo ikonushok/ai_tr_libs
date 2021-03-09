@@ -167,7 +167,7 @@ class Dataloader():
         FINAM_URL = "http://export.finam.ru/"# сервер, на который стучимся
         params = urlencode([
             ('market', self.market), #на каком рынке торгуется бумага
-            ('em', self.ticker), #вытягиваем цифровой символ, который соответствует бумаге.
+            ('em', self.ticker_code), #вытягиваем цифровой символ, который соответствует бумаге.
             ('code', self.ticker_code), #тикер нашей акции
             ('apply',0), #не нашёл что это значит. 
             ('df', self.start[0]), #Начальная дата, номер дня (1-31)
