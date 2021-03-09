@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """
 Загрузка данных с export finam.ipynb
 
