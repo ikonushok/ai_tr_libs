@@ -193,7 +193,7 @@ class Dataloader():
             ('at', 1) #Нужны ли заголовки столбцов
             ]) 
 
-        url = f'{FINAM_URL}{self.ticker}_{self.start_date}_{self.end_date}.csv?{params}'
+        url = f'{FINAM_URL}{self.ticker_code}_{self.start_date}_{self.end_date}.csv?{params}'
 
         source_data = pd.read_csv(url, sep=',')
         source_data.columns = [(item, item.capitalize())[self.capitalize] for item in ['ticker', 'per', 'date', 'time', 'open', 'high', 'low', 'close', 'vol']]
