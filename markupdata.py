@@ -2,7 +2,7 @@
 import numpy as np
 from pandas import pandas as pd, DataFrame as df
 
-from tensorflow.keras.activations import sigmoid, linear, relu
+from tensorflow.keras.activations import sigmoid, linear, relu, selu, tanh, softmax
 
 # Scipy
 from scipy.signal import argrelextrema, argrelmin, argrelmax
