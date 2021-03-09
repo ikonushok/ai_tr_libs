@@ -2,6 +2,8 @@
 import numpy as np
 from pandas import pandas as pd, DataFrame as df
 
+from tensorflow.keras.activations import sigmoid, linear, relu
+
 # Scipy
 from scipy.signal import argrelextrema, argrelmin, argrelmax
 
