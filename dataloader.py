@@ -167,8 +167,8 @@ class Dataloader():
         FINAM_URL = "http://export.finam.ru/"# сервер, на который стучимся
         params = urlencode([
             ('market', self.market), #на каком рынке торгуется бумага
-            ('em', self.ticker_code), #вытягиваем цифровой символ, который соответствует бумаге.
-            ('code', self.ticker), #тикер нашей акции
+            ('em', self.ticker), #вытягиваем цифровой символ, который соответствует бумаге.
+            ('code', self.ticker_code), #тикер нашей акции
             ('apply',0), #не нашёл что это значит. 
             ('df', self.start[0]), #Начальная дата, номер дня (1-31)
             ('mf', self.start[1] - 1), #Начальная дата, номер месяца (0-11)
@@ -181,7 +181,7 @@ class Dataloader():
             ('p', self.period), #Таймфрейм
             ('f', self.file_name), #Имя сформированного файла
             ('e', self.file_ext), #Расширение сформированного файла
-            ('cn', self.ticker), #ещё раз тикер акции	
+            ('cn', self.ticker_code), #ещё раз тикер акции	
             ('dtf', 1), #В каком формате брать даты. Выбор из 5 возможных. См. страницу https://www.finam.ru/profile/moex-akcii/sberbank/export/
             ('tmf', 1), #В каком формате брать время. Выбор из 4 возможных.
             ('MSOR', 0), #Время свечи (0 - open; 1 - close)	
