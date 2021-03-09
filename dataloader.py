@@ -110,13 +110,20 @@ class Dataloader():
         self.save_to_file = save_to_file
 
 
-    def get_tickers(self):
+    def get_all_tickers(self):
         '''
-        Возвращает установленный тикер 
+        Возвращает доступные тикеры 
         '''
         return self.tickers.keys()
 
+    
+    def get_ticker(self):
+        '''
+        Возвращает установленный тикер
+        '''
+        return self.ticker
 
+    
     def set_ticker(self, ticker):
         '''
         Устанавливает тикер
@@ -143,13 +150,6 @@ class Dataloader():
         Устанавливает директорию для сохранения файла
         '''
         self.data_path = data_path
-
-    def set_(self, period):
-        '''
-        Устанавливает период
-        period - период, доступные значения: 'tick', 'min', '5min', '10min', '15min', '30min', 'hour', 'daily', 'week', 'month'
-        '''
-        self.period = self.periods[period]
 
 
     def get_data(self):
