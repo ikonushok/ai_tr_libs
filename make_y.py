@@ -1,7 +1,7 @@
 import pandas as pd
 
 class Super_Dooper():
-  def __init__(self, remove_additional_data=True, convert_date_time_to_index=True):
+  def __init__(self, short_min=1, short_max=1, long_min=5, long_max=5, remove_additional_data=True, convert_date_time_to_index=True):
     '''
     Если нужны дополнительные параметры, которые вычисляются при определении значений y,
     нужно поставить remove_additional_data=False
@@ -12,6 +12,10 @@ class Super_Dooper():
     self.prev = 0
     self.remove_additional_data = remove_additional_data
     self.convert_date_time_to_index = convert_date_time_to_index
+    self.short_min = short_min
+    self.short_max = short_max
+    self.long_min = long_min
+    self.long_max = long_max
 
   def __filter_orders(self, item):
     self.prev
@@ -38,10 +42,10 @@ class Super_Dooper():
       data.drop('datetime', axis=1, inplace=True)
       data.index = date
 
-    data['min_sh'] = data['Close'].rolling(1, closed='left').min()
-    data['max_sh'] = data['Close'].rolling(1, closed='left').max()
-    data['min_long'] = data['Close'].rolling(5, closed='left').min()
-    data['max_long'] = data['Close'].rolling(5, closed='left').max()
+    data['min_sh'] = data['Close'].rolling(self.short_min, closed='left').min()
+    data['max_sh'] = data['Close'].rolling(self.short_max, closed='left').max()
+    data['min_long'] = data['Close'].rolling(self.long_min, closed='left').min()
+    data['max_long'] = data['Close'].rolling(self.long_min, closed='left').max()
     data['min'] = data.apply(lambda x: (0,1)[int(x['min_sh'] == x['min_long'])], axis=1)
     data['max'] = data.apply(lambda x: (0,1)[int(x['max_sh'] == x['max_long'])], axis=1)
     data['Order'] = data['min'] - data['max']
