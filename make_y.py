@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Super_Dooper():
   def __init__(self, remove_additional_data=True, convert_date_time_to_index=True):
     '''
