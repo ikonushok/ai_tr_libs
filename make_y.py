@@ -44,11 +44,11 @@ class Super_Dooper():
     data['max_long'] = data['Close'].rolling(self.long_min, closed='left').max()
     data['min'] = data.apply(lambda x: (0,1)[int(x['Close'] == x['min_long'])], axis=1)
     data['max'] = data.apply(lambda x: (0,1)[int(x['Close'] == x['max_long'])], axis=1)
-    data['Order'] = data['min'] - data['max']
+    data['Signal'] = data['min'] - data['max']
 
     self.prev = 0
-    data['Order'] = data['Order'][::-1].apply(self.__filter_orders)[::-1]
-    data['Order'] = data['Order'].fillna(method='ffill')
+    data['Signal'] = data['Signal'][::-1].apply(self.__filter_orders)[::-1]
+    data['Signal'] = data['Signal'].fillna(method='ffill')
     
     if self.remove_additional_data:
       data.drop(['min_long','max_long','min', 'max'], axis=1, inplace=True)
