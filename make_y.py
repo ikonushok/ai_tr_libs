@@ -12,8 +12,6 @@ class Super_Dooper():
     self.prev = 0
     self.remove_additional_data = remove_additional_data
     self.convert_date_time_to_index = convert_date_time_to_index
-    self.short_min = short_min
-    self.short_max = short_max
     self.long_min = long_min
     self.long_max = long_max
 
@@ -53,6 +51,6 @@ class Super_Dooper():
     data['Order'] = data['Order'].fillna(method='ffill')
     
     if self.remove_additional_data:
-      data.drop(['min_sh','max_sh','min_long','max_long','min', 'max'], axis=1, inplace=True)
+      data.drop(['min_long','max_long','min', 'max'], axis=1, inplace=True)
 
     return data
