@@ -1,7 +1,7 @@
 import pandas as pd
 
 class Super_Dooper():
-  def __init__(self, long_min=5, long_max=5, remove_additional_data=True, convert_date_time_to_index=True):
+  def __init__(self, window_size=5, remove_additional_data=True, convert_date_time_to_index=True):
     '''
     Если нужны дополнительные параметры, которые вычисляются при определении значений y,
     нужно поставить remove_additional_data=False
@@ -12,8 +12,7 @@ class Super_Dooper():
     self.prev = 0
     self.remove_additional_data = remove_additional_data
     self.convert_date_time_to_index = convert_date_time_to_index
-    self.long_min = long_min
-    self.long_max = long_max
+    self.window_size = window_size
 
   def __filter_orders(self, item):
     self.prev
@@ -40,8 +39,8 @@ class Super_Dooper():
       data.drop('datetime', axis=1, inplace=True)
       data.index = date
 
-    data['min_long'] = data['Close'].rolling(self.long_min, closed='left').min()
-    data['max_long'] = data['Close'].rolling(self.long_min, closed='left').max()
+    data['min_long'] = data['Close'].rolling(self.window_size, closed='left').min()
+    data['max_long'] = data['Close'].rolling(self.window_size, closed='left').max()
     data['min'] = data.apply(lambda x: (0,1)[int(x['Close'] == x['min_long'])], axis=1)
     data['max'] = data.apply(lambda x: (0,1)[int(x['Close'] == x['max_long'])], axis=1)
     data['Signal'] = data['min'] - data['max']
