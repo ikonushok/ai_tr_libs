@@ -1,3 +1,11 @@
+
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler, LabelEncoder, OneHotEncoder 
+from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
+import pandas as pd
+import numpy as np
+from pandas import DataFrame as df
+
+
 class Dataset():
   def __init__(self, dataset, batch_size, ensemble, one_hot_enc=True, dropna=False, **kwargs):
     self.featurized = False
@@ -85,11 +93,11 @@ class Dataset():
 
 
 # Пример использования
-ds = Dataset(data, 1, 10, test_start_index=14900)
-ds.test_end_index - 14900
+#ds = Dataset(data, 1, 10, test_start_index=14900)
+#ds.test_end_index - 14900
 #ds.featurize()
 #ds.train(0,20)[0]
 #ds.one_hot_encode_y()
 #ddd = ds.test_prep_dec(np.array(np.random.randint(-1,2,(40,2))))
 #ds.y_encoder.inverse_transform([[1.,0.]])
-ds.test()[0]
+#ds.test()[0]
