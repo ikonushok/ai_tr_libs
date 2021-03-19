@@ -16,10 +16,12 @@ data.get_data()
 
 API:
 
-**Class Dataloader**
+**Class Dataloader()**
 
 ```python
-Class Dataloader(ticker, period='hour', start_date='01-01-2014', end_date=None, save_to_file=False, data_path=None, overwrite=True, capitalize=False)
+Class Dataloader(ticker, period='hour', start_date='01-01-2014', 
+                 end_date=None, save_to_file=False, 
+                 data_path=None, overwrite=True, capitalize=False)
 
 ticker - код акции 
 period - период, доступные значения: 'tick', 'min', '5min', '10min', '15min', '30min', 'hour', 'daily', 'week', 'month'
@@ -29,39 +31,46 @@ data_path - путь к папке куда должен быть сохране
 overwrite - перезаписывать файл, если файл с таким именем уже существует.
 ```
 
-**def get_all_ticker(self)**
-```
+**get_all_ticker()**
+```python
+def get_all_ticker(self)
 Возвращает все доступные тикеры 
 ```
 
-**def get_ticker(self)**
-```
+**get_ticker()**
+```python
+def get_ticker(self)
 Возвращает установленный тикер 
 ```
 
-**def set_ticker(self, ticker)**
-```
+**set_ticker(ticker)**
+```python
+def set_ticker(self, ticker)
 Устанавливает тикер
 ```
 
-**def get_periods(self)**
-```
+**get_periods()**
+```python
+def get_periods(self)
 Возвращает установленный период 
 ```
 
-**def set_period(self, period)**
-```
+**set_period(period)**
+```python
+def set_period(self, period)
 Устанавливает период period, 
 доступные значения: 
 'tick', 'min', '5min', '10min', '15min', '30min', 'hour', 'daily', 'week', 'month'
 ```
 
-**def set_data_path(self, data_path)**
-```
+**set_data_path(data_path)**
+```python
+def set_data_path(self, data_path)
 Устанавливает директорию для сохранения файла
 ```
 
-**def get_data(self)**
-```
+**get_data()**
+```python
+def get_data(self)
 Возвращает данные, либо сохраняет данные в файл, который был указан при создании объекта
 ```
