@@ -8,7 +8,7 @@
 ```
 
 Пример использования библиотеки для загрузки данных
-```
+```python
 from dataloader import Dataloader as dl
 data = dl('ABRD', start_date='01-01-2021')
 data.get_data()
@@ -16,9 +16,11 @@ data.get_data()
 
 API:
 
-**Class Dataloader(ticker, period='hour', start_date='01-01-2014', end_date=None, save_to_file=False, data_path=None, overwrite=True, capitalize=False)**
+**Class Dataloader**
 
-```
+```python
+Class Dataloader(ticker, period='hour', start_date='01-01-2014', end_date=None, save_to_file=False, data_path=None, overwrite=True, capitalize=False)
+
 ticker - код акции 
 period - период, доступные значения: 'tick', 'min', '5min', '10min', '15min', '30min', 'hour', 'daily', 'week', 'month'
 start_date - дата начала периода для скачивания истории в формате "ДД-ММ-ГГГГ" (должна быть не раньше 01-01-2014)
