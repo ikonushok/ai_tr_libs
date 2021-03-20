@@ -1,4 +1,4 @@
-class Long(Strategy):
+class Long_Strategy(Strategy):
     
     def init(self):
       self.signal = self.I(lambda x: x, self.data.Signal, name='Signal') 
