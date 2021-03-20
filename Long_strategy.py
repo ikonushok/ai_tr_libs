@@ -1,3 +1,6 @@
+# Библиоетки backtesting
+from backtesting import Backtest, Strategy
+
 class Long_Strategy(Strategy):
     
     def init(self):
