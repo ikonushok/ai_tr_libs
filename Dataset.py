@@ -30,7 +30,7 @@ class Dataset():
     if self.one_hot_enc:
       self.one_hot_encode_y()
 
-    temp = data.copy()
+    temp = self.data.copy()
     temp.drop(['Ticker', 'Per', 'Date', 'Time'], axis=1, inplace=True)
     temp['sin'] = temp['Close'].apply(lambda x: np.sin(x))
     
