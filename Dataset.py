@@ -7,7 +7,7 @@ from pandas import DataFrame as df
 
 
 class Dataset():
-  def __init__(self, dataset, batch_size, ensemble, one_hot_enc=True, dropna=False, **kwargs):
+  def __init__(self, dataset, batch_size, ensemble, one_hot_enc=True, dropna=False, drop_signal=False, **kwargs):
     self.featurized = False
     self.data = dataset
     self.batch_size = batch_size
@@ -15,6 +15,7 @@ class Dataset():
     self.dropna = dropna
     self.one_hot_enc = one_hot_enc
     self.shape = self.data.shape
+    self.drop_signal = drop_signal
 
     self.training_start_index = 0 if 'training_start_index' not in kwargs.keys() else kwargs['training_start_index']
     self.val_start_index = 0 if 'val_start_index' not in kwargs.keys() else kwargs['val_start_index']
@@ -32,6 +33,8 @@ class Dataset():
 
     temp = self.data.copy()
     temp.drop(['Ticker', 'Per', 'Date', 'Time'], axis=1, inplace=True)
+    if self.drop_signal:
+      temp.drop(['Signal'], axis=1, inplace=True)
     temp['sin'] = temp['Close'].apply(lambda x: np.sin(x))
     
     if self.dropna:
