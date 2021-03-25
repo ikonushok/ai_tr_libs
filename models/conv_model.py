@@ -1,0 +1,46 @@
+k_size = (3,5)
+
+input_shape = (*ds.input_shape, 1)
+input_layer = Input(shape=input_shape)
+
+x = Conv2D(64, k_size, padding = 'same', activation='elu')(input_layer)
+
+x = Conv2D(64, k_size, padding = 'same', activation='elu')(x)
+xa = AveragePooling2D(pool_size=(2,1), padding='same')(x)
+xm = MaxPooling2D(pool_size=(2,1), padding='same')(x)
+xa = Conv2D(64, k_size, padding = 'same', activation='elu')(xa)
+xm = Conv2D(64, k_size, padding = 'same', activation='elu')(xm)
+#x = xm * xa
+x = concatenate([xa,xm])
+#x = LeakyReLU()(x)
+x = Conv2D(128, k_size, padding = 'same',activation='elu')(x)
+#x = LeakyReLU()(x)
+x = Conv2D(128, k_size, padding = 'same', activation='elu')(x)
+xa = AveragePooling2D(pool_size=(2,1), padding='same')(x)
+xm = MaxPooling2D(pool_size=(2,1), padding='same')(x)
+xa = Conv2D(64, k_size, padding = 'same', activation='elu')(xa)
+xm = Conv2D(64, k_size, padding = 'same', activation='elu')(xm)
+#x = xm * xa
+x = concatenate([xa,xm])
+x = Conv2D(128, k_size, padding = 'same',activation='elu')(x)
+#x = LeakyReLU()(x)
+x = Conv2D(128, k_size, padding = 'same', activation='elu')(x)
+xa = AveragePooling2D(pool_size=(2,1), padding='same')(x)
+xm = MaxPooling2D(pool_size=(2,1), padding='same')(x)
+xa = Conv2D(64, k_size, padding = 'same', activation='elu')(xa)
+xm = Conv2D(64, k_size, padding = 'same', activation='elu')(xm)
+x = concatenate([xa,xm])
+#x = xm * xa
+#x = MaxPooling2D(pool_size=(2,1), padding='same')(x)
+x = Conv2D(32, k_size, padding = 'same', activation='elu')(x)
+x = Conv2D(8, k_size, padding = 'same', activation='elu')(x)
+#x = LeakyReLU()(x)
+#x = GRU(20)(x)
+x = Flatten()(x)
+x = Dense(12, activation='tanh')(x)
+
+#x = LeakyReLU()(x)
+#x = Dropout(0.5)(x)
+x = Dense(2, activation = 'softmax')(x)
+
+model = Model(input_layer, x)
