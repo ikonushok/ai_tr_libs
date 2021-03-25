@@ -7,7 +7,7 @@ from pandas import DataFrame as df
 
 
 class Dataset():
-  def __init__(self, dataset, batch_size, ensemble, one_hot_enc=True, dropna=False, drop_signal=False, **kwargs):
+  def __init__(self, dataset, batch_size, ensemble, one_hot_enc=True, dropna=False, drop_signal=False, date_to_feat=False, **kwargs):
     self.featurized = False
     self.data = dataset
     self.batch_size = batch_size
@@ -16,6 +16,7 @@ class Dataset():
     self.one_hot_enc = one_hot_enc
     self.shape = self.data.shape
     self.drop_signal = drop_signal
+    self.date_to_feat = date_to_feat
 
     self.training_start_index = 0 if 'training_start_index' not in kwargs.keys() else kwargs['training_start_index']
     self.val_start_index = 0 if 'val_start_index' not in kwargs.keys() else kwargs['val_start_index']
@@ -32,6 +33,14 @@ class Dataset():
       self.one_hot_encode_y()
 
     temp = self.data.copy()
+    
+    if self.date_to_feat:
+      date = pd.to_datetime(temp['Date'], format='%Y%m%d')
+      temp['week_day'] = date.apply(lambda x: x.weekday())
+      temp['month'] = date.apply(lambda x: x.month)
+      temp['week'] = date.apply(lambda x: x.week)
+      temp['day'] = date.apply(lambda x: x.day)
+      
     temp.drop(['Ticker', 'Per', 'Date', 'Time'], axis=1, inplace=True)
     if self.drop_signal:
       temp.drop(['Signal'], axis=1, inplace=True)
@@ -40,6 +49,9 @@ class Dataset():
     if self.dropna:
       temp.dropna(axis=0, inplace=True)
 
+      
+
+      
     xScaler = RobustScaler()
     self.X = xScaler.fit_transform(temp)
 
