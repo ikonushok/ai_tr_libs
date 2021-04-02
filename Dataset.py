@@ -8,6 +8,46 @@ from pandas import DataFrame as df
 
 class Dataset():
   def __init__(self, dataset, batch_size, ensemble, one_hot_enc=True, dropna=False, drop_signal=False, date_to_feat=False, **kwargs):
+    '''
+    Пример использования
+    data - DataFrame(ohlc)
+    
+    ds = Dataset(data, 1, 10, test_start_index=14900, test_end_index=15000, one_hot_enc=True, stride=2, sampling_rate=2)
+    model.fit(ds.train())
+    
+    ddd = ds.test_prep_dec(np.array(np.random.randint(-1,2,(40,2))))
+    
+    ds.y_encoder.inverse_transform([[1.,0.]])
+    ds.test()[0]
+
+
+    Параметры TimeSeriesGenerator:
+    data: Индексируемый генератор (например, массив List или Numpy), содержащий последовательные точки данных (временные интервалы). 
+    Данные должны иметь размерность 2D, а ось 0 должна быть измерением времени.
+    
+    targets: Целевые значения, соответствующие временному интервалу в данных. Они должны иметь ту же длину, что и данные.
+    
+    length: Длина выходных последовательностей (по количеству временных интервалов).
+    
+    sampling_rate: Период между последовательными отдельными временными шагами внутри последовательностей. 
+    Для скорости r, временной шаг data[i], data[i-r], … data[i — длина] используется для создания последовательности дискретизации.
+    
+    stride: Период между последовательными выходными последовательностями. Для шага s последовательные выходные выборки будут центрироваться вокруг данных[i], 
+    данных[i+s], данных[i+2*s] и др.
+    
+    start_index: Точки данных предшествующие start_index, не будут использоваться в выходных последовательностях. 
+    Это полезно для резервирования части данных для тестирования или валидации.
+    
+    end_index: Точки данных, расположенные позже, чем end_index, не будут использоваться в выходных последовательностях. 
+    Это полезно для резервирования части данных для тестирования или проверки.
+    
+    shuffle: Следует ли тасовать выходные выборки, или вместо этого располагать их в хронологическом порядке.
+    
+    reverse: Boolean: если верно, то таймфреймы в каждой выходной выборке будут в обратном хронологическом порядке.
+    
+    batch_size: Количество сэмплов таймсерий в каждой партии (за исключением, возможно, последней).
+    '''
+    
     self.featurized = False
     self.data = dataset
     self.batch_size = batch_size
@@ -32,6 +72,9 @@ class Dataset():
 
 
   def featurize(self):
+    '''
+    Формирвоание X разметки и скалирование X и y
+    '''
     if self.one_hot_enc:
       self.one_hot_encode_y()
 
@@ -63,6 +106,9 @@ class Dataset():
 
 
   def one_hot_encode_y(self):
+    '''
+    one_hot_encoder для y
+    '''
     self.y = self.data['Signal'].copy().to_numpy().reshape(-1,1)
     self.y_encoder = OneHotEncoder().fit(self.y)
     self.y = self.y_encoder.transform(self.y).toarray()
@@ -76,6 +122,9 @@ class Dataset():
 
 
   def train(self, start_index=None, end_index=None):
+    '''
+    TimeSeriesGenerator для train датасета
+    '''
     start = (self.training_start_index, start_index)[start_index != None]
     end = (self.training_end_index, end_index)[end_index != None]
     assert self.featurized, 'Dataset is not featuarized yet, perform Dataset.featurize()!'
@@ -83,6 +132,9 @@ class Dataset():
 
 
   def val(self, start_index=None, end_index=None):
+    '''
+    TimeSeriesGenerator для val датасета
+    '''
     start = (self.val_start_index, start_index)[start_index != None]
     end = (self.val_end_index, end_index)[end_index != None]
     assert self.featurized, 'Dataset is not featuarized yet, perform Dataset.featurize()!'
@@ -90,6 +142,9 @@ class Dataset():
 
 
   def test(self, start_index=None, end_index=None):
+    '''
+    TimeSeriesGenerator для test датасета
+    '''
     start = (self.test_start_index, start_index)[start_index != None]
     end = (self.test_end_index, end_index)[end_index != None]
     assert self.featurized, 'Dataset is not featuarized yet, perform Dataset.featurize()!'
@@ -97,6 +152,9 @@ class Dataset():
 
 
   def test_prep_dec(self, prep):
+    '''
+    Decoding предикта в исходный формат y
+    '''
     assert self.featurized, 'Dataset is not featuarized yet, perform Dataset.featurize()!'
     assert self.test_end_index + 1 - self.test_start_index - self.ensemble == prep.shape[0], 'Length of prediction is not equal length of source data.'
     if self.one_hot_enc:
@@ -107,14 +165,3 @@ class Dataset():
     res = self.data[['Open', 'High', 'Low', 'Close']][self.test_start_index + self.ensemble: self.test_end_index + 1].copy()
     res['Signal'] = prep
     return res
-
-
-# Пример использования
-#ds = Dataset(data, 1, 10, test_start_index=14900)
-#ds.test_end_index - 14900
-#ds.featurize()
-#ds.train(0,20)[0]
-#ds.one_hot_encode_y()
-#ddd = ds.test_prep_dec(np.array(np.random.randint(-1,2,(40,2))))
-#ds.y_encoder.inverse_transform([[1.,0.]])
-#ds.test()[0]
