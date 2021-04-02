@@ -49,9 +49,8 @@ class Dataset():
     if self.dropna:
       temp.dropna(axis=0, inplace=True)
 
-      
-
-      
+    self.data_before_scaling = temp
+    
     xScaler = RobustScaler()
     self.X = xScaler.fit_transform(temp)
 
