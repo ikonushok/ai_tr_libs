@@ -24,6 +24,9 @@ class Dataset():
     self.training_end_index = self.shape[0] - 1 if 'training_end_index' not in kwargs.keys() else kwargs['training_end_index']
     self.val_end_index = self.shape[0] - 1 if 'val_end_index' not in kwargs.keys() else kwargs['val_end_index']
     self.test_end_index = self.shape[0] - 1 if 'test_end_index' not in kwargs.keys() else kwargs['test_end_index']
+    
+    self.stride = 1 if 'strid' not in kwargs.keys() else kwargs['stride']
+    self.sampling_rate = 1 if 'sampling_rate' not in kwargs.keys() else kwargs['sampling_rate']
 
     self.featurize()
 
@@ -67,7 +70,7 @@ class Dataset():
 
   def __ts(self, start_index, end_index):
     assert self.featurized, 'Dataset is not featuarized yet, perform Dataset.featurize()!'
-    return TimeseriesGenerator(self.X, self.y, length=self.ensemble, sampling_rate=1, 
+    return TimeseriesGenerator(self.X, self.y, length=self.ensemble, stride=self.stride, sampling_rate=self.sampling_rate, 
                               start_index=start_index, end_index=end_index, 
                               batch_size=self.batch_size)
 
