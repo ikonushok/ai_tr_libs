@@ -10,7 +10,8 @@ from datetime import datetime
 
 # Numpy & Pandas
 import numpy as np
-from pandas import pandas as pd, DataFrame as df
+import pandas as pd
+from pandas import DataFrame as df
 
 import os
 

@@ -8,8 +8,10 @@
 ```
 
 Пример использования библиотеки для загрузки данных
+
 ```python
-from dataloader import Dataloader as dl
+from API.dataloader import Dataloader as dl
+
 data = dl('ABRD', start_date='01-01-2021')
 data.get_data()
 ```
